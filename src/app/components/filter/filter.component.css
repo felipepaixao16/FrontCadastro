@@ -1,0 +1,17 @@
+.ativos {
+    position: absolute;
+    right: 50px;
+    top: 30px;
+    width: 1000px;
+    height: 380px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.ativos h1 {
+    font-size: 15px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    color: darkolivegreen;
+}

@@ -1,0 +1,30 @@
+.container-form {
+    width: 320px;
+    height: 380px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.container-form .style {
+    color: #fff;
+}
+
+.pe-5 {
+    padding-right: 6rem !important;
+}
+
+.modal-content {
+    width: 71% !important;
+}
+
+.form-control {
+    margin-bottom: 5px;
+}
+
+.form-select {
+    margin-bottom: 5px;
+}
+
+.form-check {
+    margin-top: 5px;
+}

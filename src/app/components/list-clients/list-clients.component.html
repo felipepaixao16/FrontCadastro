@@ -1,0 +1,88 @@
+<div>
+    <table class="table overflow-y-scroll">
+      <thead class="table-dark table-striped-columns">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Tipo DOC</th>
+          <th scope="col">N° DOC</th>
+          <th scope="col">RG</th>
+          <th scope="col">Data Cadastro</th>
+          <th scope="col">Situação</th>
+          <th scope="col">Telefones</th>
+          <th scope="col">Excluir</th>
+          <th scope="col">Alterar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of clientes; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{c.nome}}</td>
+          <td>{{c.tipo_pessoa}}</td>
+          <td>{{c.cpfCnpj | cpfCnpj }}</td>
+          <td>{{c.rg_ie | rg }}</td>
+          <td>{{c.data_cadastro | date:"dd/MM/yyyy"}}</td>
+          <td>
+            <span *ngIf="c.ativo; else inativo">Ativo</span>
+            <ng-template #inativo>Inativo</ng-template>
+          </td>
+          <td>
+            <span *ngFor="let telefone of c.telefones; let isLast = last">
+              {{ telefone.numero | phone }}{{ isLast ? '' : ', ' }}
+            </span>
+          </td>
+          <td><button (click)="deleteCliente(c.id)" class="btn btn-danger"><img src="../../../assets/icons/trash.svg" alt=""></button></td>
+          <td><button name="edit" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal" (click)="getCliente(c.id)">
+            <img src="../../../assets/icons/edit.svg" alt="">
+          </button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Atualizar cliente</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="background-color: #212529;">
+          <div class="col-md-3 container-form p-2 overflow-auto" style="background-color: #212529;">
+              <div class="edit-form">
+                  <form>
+                      <input class="form-control" name="nome" type="text" [(ngModel)]="cliente.nome" placeholder="Nome" aria-label="nome">
+                      <select class="form-select" [(ngModel)]="cliente.tipo_pessoa" name="tipo_pessoa" aria-label="Default select example">
+                          <option selected>Selecione o tipo de documento</option>
+                          <option value="cpf">CPF</option>
+                          <option value="cnpj">CNPJ</option>
+                      </select>
+                      <input class="form-control" type="number" [(ngModel)]="cliente.cpfCnpj" name="cpfCnpj" placeholder="Número do documento" aria-label="default input example">
+                      <input class="form-control" type="number" [(ngModel)]="cliente.rg_ie" name="rg_ie" placeholder="Digite seu RG" aria-label="default input example">
+                      <div class="row-md-3">
+                          <label for="iData" class="form-label style">Data de cadastro</label>
+                          <input type="date" [(ngModel)]="cliente.data_cadastro" name="data_cadastro" class="form-control" id="iData">
+                      </div>
+                      <div class="btn-group" *ngFor="let telefone of cliente.telefones; let i = index" role="group" aria-label="Third group">
+                          <input class="form-control pe-5" type="text" name="telefone{{i}}" [(ngModel)]="telefone.numero" placeholder="Telefone" aria-label="default input example">
+                          <button type="button" class="btn btn-success h-50" (click)="adicionarTelefone()">+</button>
+                      </div>     
+                      <div class="row-md-3 position-relative">
+                          <div class="form-check position-absolute top-0 start-0">
+                              <input class="form-check-input" type="checkbox" name="ativo" [(ngModel)]="cliente.ativo" value="" id="flexCheckIndeterminate">
+                              <label class="form-check-label style" for="flexCheckIndeterminate">
+                              Ativo
+                              </label>
+                          </div>
+                          <div class="position-absolute bottom-10 end-0" >
+                              <button class="btn btn-primary" (click)="updateCliente()" type="button">Salvar</button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

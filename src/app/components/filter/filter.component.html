@@ -1,0 +1,42 @@
+<div class="ativos table-responsive">
+  <div class="container-fluid ms-0" style="background-color: #212529;">
+    <form class="d-flex w-50" role="search" (ngSubmit)="buscarClientesPeloNome()">
+      <input class="form-control" type="search" placeholder="Pesquisar" [(ngModel)]="nomePesquisado" name="nomePesquisado" aria-label="Search">
+      <button class="btn btn-primary me-2" type="button" (click)="buscarClientesPeloNome()">Buscar</button>
+      <button class="btn btn-success" type="button" (click)="buscarClientesAtivos()">Ativos</button>
+    </form>
+    </div>
+    <table class="table overflow-auto">
+      <thead class="table-dark table-striped-columns">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Tipo DOC</th>
+          <th scope="col">N° DOC</th>
+          <th scope="col">RG</th>
+          <th scope="col">Data Cadastro</th>
+          <th scope="col">Situação</th>
+          <th scope="col">Telefones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientesPeloNome; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{cliente.nome}}</td>
+          <td>{{cliente.tipo_pessoa}}</td>
+          <td>{{cliente.cpfCnpj ? (cliente.cpfCnpj | cpfCnpj) : '' }}</td>
+          <td>{{cliente.rg_ie | rg }}</td>
+          <td>{{cliente.data_cadastro | date:"dd/MM/yyyy"}}</td>
+          <td>
+            <span *ngIf="cliente.ativo; else inativo">Ativo</span>
+            <ng-template #inativo>Inativo</ng-template>
+          </td>
+          <td>
+            <span *ngFor="let telefone of cliente.telefones; let isLast = last">
+              {{ telefone.numero | phone }}{{ isLast ? '' : ', ' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
